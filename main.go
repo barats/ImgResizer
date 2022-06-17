@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ImgResize/img_resizer"
+	"ImgResize/core"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -12,6 +12,8 @@ import (
 	"github.com/nfnt/resize"
 )
 
+const Version string = "v1.1"
+
 var (
 	cmdSource     string
 	cmdDest       string
@@ -19,9 +21,11 @@ var (
 	cmdWidth      int
 	cmdHeight     int
 	cmdHelp       bool
+	cmdFormat     string
 )
 
 func init() {
+	flag.StringVar(&cmdFormat, "format", "", "Ouput format (png|jpg|jpeg|bmp|tiff|gif)")
 	flag.BoolVar(&cmdHelp, "help", false, "Show help message")
 	flag.IntVar(&cmdWidth, "width", 300, "Destination width")
 	flag.IntVar(&cmdHeight, "height", 128, "Destination height")
@@ -32,12 +36,11 @@ func init() {
 2 - Bicubic interpolation
 3 - Mitchell-Netravali interpolation
 4 - Lanczos resampling with a=2
-5 - Lanczos resampling with a=3
-`)
+5 - Lanczos resampling with a=3`)
 
 	flag.Usage = func() {
-		fmt.Println("Usage: ImgResizer -source {source} -dest {dest} -mode {mode}")
-		flag.CommandLine.PrintDefaults()
+		fmt.Printf("Usage of ImgResizer %s \nImgResizer -source {source} -dest {dest} -mode {mode}\n", Version)
+		flag.PrintDefaults()
 	}
 }
 
@@ -73,104 +76,38 @@ func main() {
 		}
 
 		for _, f := range files {
-			sf := filepath.Join(cmdSource, f.Name())
-			df := filepath.Join(cmdDest, strings.TrimSuffix(f.Name(), filepath.Ext(f.Name())))
 			if strings.EqualFold(f.Name(), ".DS_Store") {
 				continue
 			}
-			err := dealWithFile(sf, df)
+			err := core.DealWithFile(filepath.Join(cmdSource, f.Name()), core.OutputOptions{
+				Format:        core.OutputFormat(cmdFormat),
+				Width:         cmdWidth,
+				Height:        cmdHeight,
+				DestPath:      filepath.Join(cmdDest, strings.TrimSuffix(f.Name(), filepath.Ext(f.Name()))),
+				Interpolation: resize.InterpolationFunction(cmdResizeMode),
+			})
+
 			if err != nil {
 				fmt.Println(err)
 				continue
 			}
 		} //end of for
-
 	} else {
 		//Assume that source & destination is file
 		//Assume that destination file does not exist, override if it's not
-		err := dealWithFile(cmdSource, cmdDest)
+		err := core.DealWithFile(cmdSource, core.OutputOptions{
+			Format:        core.OutputFormat(cmdFormat),
+			Width:         cmdWidth,
+			Height:        cmdHeight,
+			DestPath:      cmdDest,
+			Interpolation: resize.InterpolationFunction(cmdResizeMode),
+		})
+
 		if err != nil {
+			fmt.Sprintln(err)
 			return
 		}
 	}
 
 	fmt.Println("done.")
-
 } //end of main
-
-func dealWithFile(source, dest string) error {
-
-	ofile, err := os.Open(source)
-	if err != nil {
-		fmt.Printf("Error opening file %s, %v", source, err)
-		return err
-	}
-	defer ofile.Close()
-
-	format, err := img_resizer.GuessImageType(ofile)
-	if err != nil {
-		fmt.Printf("Could not guess mime type of file %s, %v", source, err)
-		return err
-	}
-
-	ofile.Seek(0, 0) //MUST SEEK BACK TO 0,0 acording to https://github.com/golang/go/issues/50992
-
-	if strings.EqualFold("png", strings.ToLower(format)) {
-		img, err := img_resizer.PNGDecode(ofile)
-		if err != nil {
-			fmt.Printf("Error decoding PNG file %s, %v", source, err)
-			return err
-		}
-
-		destFile := resize.Resize(uint(cmdWidth), uint(cmdHeight), img, resize.InterpolationFunction(cmdResizeMode))
-
-		out, err := os.Create(fmt.Sprintf("%s_%d_%d.png", strings.TrimSpace(dest), cmdWidth, cmdHeight))
-		if err != nil {
-			fmt.Printf("Error creating file %s, %v", dest, err)
-			return err
-		}
-		defer out.Close()
-
-		return img_resizer.PNGEncode(out, destFile)
-	}
-
-	if strings.EqualFold("jpeg", strings.ToLower(format)) || strings.EqualFold("jpg", strings.ToLower(format)) {
-		img, err := img_resizer.JPGDecode(ofile)
-		if err != nil {
-			fmt.Printf("Error decoding JPEG file %s, %v", source, err)
-			return err
-		}
-
-		destFile := resize.Resize(uint(cmdWidth), uint(cmdHeight), img, resize.InterpolationFunction(cmdResizeMode))
-
-		out, err := os.Create(fmt.Sprintf("%s_%d_%d.jpg", strings.TrimSpace(dest), cmdWidth, cmdHeight))
-		if err != nil {
-			fmt.Printf("Error creating file %s, %v", dest, err)
-			return err
-		}
-		defer out.Close()
-
-		return img_resizer.JPGEncode(out, destFile)
-	}
-
-	if strings.EqualFold("gif", strings.ToLower(format)) {
-		img, err := img_resizer.GIFDecode(ofile)
-		if err != nil {
-			fmt.Printf("Error decoding GIF file %s, %v", source, err)
-			return err
-		}
-
-		destFile := resize.Resize(uint(cmdWidth), uint(cmdHeight), img, resize.InterpolationFunction(cmdResizeMode))
-
-		out, err := os.Create(fmt.Sprintf("%s_%d_%d.gif", strings.TrimSpace(dest), cmdWidth, cmdHeight))
-		if err != nil {
-			fmt.Printf("Error creating file %s, %v", dest, err)
-			return err
-		}
-		defer out.Close()
-
-		return img_resizer.GIFEncode(out, destFile)
-	}
-
-	return nil
-}
