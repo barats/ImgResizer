@@ -39,7 +39,7 @@ func init() {
 5 - Lanczos resampling with a=3`)
 
 	flag.Usage = func() {
-		fmt.Printf("Usage of ImgResizer %s \nImgResizer -source {source} -dest {dest} -mode {mode}\n", Version)
+		fmt.Printf("Usage of ImgResizer %s \nImgResizer -source {source} -dest {dest} -mode {mode}\n\n", Version)
 		flag.PrintDefaults()
 	}
 }
