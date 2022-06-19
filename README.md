@@ -57,3 +57,7 @@ ImgResizer -source ~/pics/hello.gif -dest ~/newpics/wow.gif -width 900
 ImgResizer -source ~/pics -dest ~/new_pics -format jpg
 ```
 
+## 源代码
+1. Gitee [https://gitee.com/barat/imgresizer](https://gitee.com/barat/imgresizer)
+1. Github [https://github.com/barats/ImgResizer](https://github.com/barats/ImgResizer)
+
