@@ -12,7 +12,7 @@ import (
 	"github.com/nfnt/resize"
 )
 
-const Version string = "v1.1"
+const Version string = "v1.2"
 
 var (
 	cmdSource     string
@@ -25,12 +25,12 @@ var (
 )
 
 func init() {
-	flag.StringVar(&cmdFormat, "format", "", "Ouput format (png|jpg|jpeg|bmp|tiff|gif)")
-	flag.BoolVar(&cmdHelp, "help", false, "Show help message")
-	flag.IntVar(&cmdWidth, "width", 300, "Destination width")
-	flag.IntVar(&cmdHeight, "height", 128, "Destination height")
-	flag.StringVar(&cmdSource, "source", "", "Source file or directory")
-	flag.StringVar(&cmdDest, "dest", "", "Destination file or directory")
+	flag.StringVar(&cmdFormat, "format", "", "Ouput format. Supported values: png|jpg|jpeg|bmp|tiff|gif. Omit to keep original format.")
+	flag.BoolVar(&cmdHelp, "help", false, "Show help message.")
+	flag.IntVar(&cmdWidth, "width", -1, "Destination width. Omit to keep original width")
+	flag.IntVar(&cmdHeight, "height", -1, "Destination height. Omit to keep original height")
+	flag.StringVar(&cmdSource, "source", "", "Source file or directory.")
+	flag.StringVar(&cmdDest, "dest", "", "Destination file or directory.")
 	flag.IntVar(&cmdResizeMode, "mode", 0, `0 - (Default) Nearest-neighbor interpolation
 1 - Bilinear interpolation
 2 - Bicubic interpolation
@@ -39,7 +39,7 @@ func init() {
 5 - Lanczos resampling with a=3`)
 
 	flag.Usage = func() {
-		fmt.Printf("Usage of ImgResizer %s \nImgResizer -source {source} -dest {dest} -mode {mode}\n\n", Version)
+		fmt.Printf("Usage of ImgResizer %s \nFor more information, please visit: \nhttps://github.com/barats/ImgResizer \nhttps://gitee.com/barat/imgresizer \n\nImgResizer -source {source} -dest {dest} -mode {mode}\n", Version)
 		flag.PrintDefaults()
 	}
 }
@@ -50,6 +50,11 @@ func main() {
 
 	if cmdHelp {
 		flag.Usage()
+		return
+	}
+
+	if strings.EqualFold("", strings.TrimSpace(cmdSource)) || strings.EqualFold("", strings.TrimSpace(cmdDest)) {
+		fmt.Println("Missing parameter <-source> or <-dest>. Please -h or -help to show help message.")
 		return
 	}
 

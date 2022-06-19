@@ -39,7 +39,7 @@ func DealWithFile(source string, option OutputOptions) error {
 	}
 	defer file.Close()
 
-	fileFormat, err := guessImageType(file)
+	fileFormat, width, height, err := retrieveImageInfo(file)
 	if err != nil {
 		fmt.Printf("Could not guess mime type of file %s, %v", source, err)
 		return err
@@ -72,6 +72,14 @@ func DealWithFile(source string, option OutputOptions) error {
 		return err
 	}
 
+	if option.Width == -1 {
+		option.Width = width
+	}
+
+	if option.Height == -1 {
+		option.Height = height
+	}
+
 	afterResize := resize.Resize(uint(option.Width), uint(option.Height), data, option.Interpolation)
 
 	if strings.EqualFold("", string(option.Format)) {
@@ -101,11 +109,11 @@ func DealWithFile(source string, option OutputOptions) error {
 
 //
 //Guess image type
-func guessImageType(r io.Reader) (string, error) {
-	_, format, err := image.DecodeConfig(r)
+func retrieveImageInfo(r io.Reader) (string, int, int, error) {
+	config, format, err := image.DecodeConfig(r)
 	if err != nil {
-		return "", err
+		return "", -1, -1, err
 	}
 
-	return format, nil
+	return format, config.Width, config.Height, nil
 }
