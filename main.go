@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ImgResize/core"
+	"ImgResizer/core"
 	"flag"
 	"fmt"
 	"io/ioutil"

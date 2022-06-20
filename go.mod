@@ -1,4 +1,4 @@
-module ImgResize
+module ImgResizer
 
 go 1.16
 

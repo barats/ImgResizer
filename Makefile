@@ -10,11 +10,13 @@ compress: compress-macos compress-linux compress-windows
 build-macos:
 	@echo "开始 macOS 可执行程序编译..."
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o $(BUILD_PATH)/$(APPNAME)-darwin-x86_64
+	CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o $(BUILD_PATH)/$(APPNAME)-darwin-arm64
 	@echo "macOS 可执行程序编译完成..."
 
 build-linux:
 	@echo "开始 Linux 可执行程序编译..."
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o $(BUILD_PATH)/$(APPNAME)-linux-x86_64
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o $(BUILD_PATH)/$(APPNAME)-linux-arm64
 	@echo "Linux 可执行程序编译完成..."	
 
 build-windows:
@@ -27,6 +29,9 @@ compress-macos:
 	mv $(BUILD_PATH)/$(APPNAME)-darwin-x86_64 $(BUILD_PATH)/$(APPNAME)-darwin-x86_64_tmp
 	upx --best -o $(BUILD_PATH)/$(APPNAME)-darwin-x86_64 $(BUILD_PATH)/$(APPNAME)-darwin-x86_64_tmp
 	rm -fr $(BUILD_PATH)/$(APPNAME)-darwin-x86_64_tmp
+	mv $(BUILD_PATH)/$(APPNAME)-darwin-arm64 $(BUILD_PATH)/$(APPNAME)-darwin-arm64_tmp
+	upx --best -o $(BUILD_PATH)/$(APPNAME)-darwin-arm64 $(BUILD_PATH)/$(APPNAME)-darwin-arm64_tmp
+	rm -fr $(BUILD_PATH)/$(APPNAME)-darwin-arm64_tmp	
 	@echo "macOS 可执行程序压缩完成..."
 
 compress-linux:
@@ -34,6 +39,9 @@ compress-linux:
 	mv $(BUILD_PATH)/$(APPNAME)-linux-x86_64 $(BUILD_PATH)/$(APPNAME)-linux-x86_64_tmp
 	upx --best -o $(BUILD_PATH)/$(APPNAME)-linux-x86_64 $(BUILD_PATH)/$(APPNAME)-linux-x86_64_tmp
 	rm -fr $(BUILD_PATH)/$(APPNAME)-linux-x86_64_tmp
+	mv $(BUILD_PATH)/$(APPNAME)-linux-arm64 $(BUILD_PATH)/$(APPNAME)-linux-arm64_tmp
+	upx --best -o $(BUILD_PATH)/$(APPNAME)-linux-arm64 $(BUILD_PATH)/$(APPNAME)-linux-arm64_tmp
+	rm -fr $(BUILD_PATH)/$(APPNAME)-linux-arm64_tmp
 	@echo "Linux 可执行程序压缩完成..."	
 
 compress-windows:
