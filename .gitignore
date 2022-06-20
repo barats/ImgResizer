@@ -1,6 +1,5 @@
 build
 .vscode
 .idea
-dist/
-
-dist/
+.DS_Store
+goreleaser.yaml
