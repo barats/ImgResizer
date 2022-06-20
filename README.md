@@ -60,4 +60,4 @@ ImgResizer -source ~/pics -dest ~/new_pics -format jpg
 ## 源代码
 1. Gitee [https://gitee.com/barat/imgresizer](https://gitee.com/barat/imgresizer)
 1. Github [https://github.com/barats/ImgResizer](https://github.com/barats/ImgResizer)
-
+1. Gitlink [https://www.gitlink.org.cn/baladiwei/imgresizer](https://www.gitlink.org.cn/baladiwei/imgresizer)
