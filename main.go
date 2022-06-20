@@ -12,7 +12,7 @@ import (
 	"github.com/nfnt/resize"
 )
 
-const Version string = "v1.2"
+const Version string = "v1.3"
 
 var (
 	cmdSource     string
