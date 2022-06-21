@@ -1,3 +1,11 @@
+//Copyright (c) [2022] [巴拉迪维]
+//[ImgResizer] is licensed under Mulan PSL v2.
+//You can use this software according to the terms and conditions of the Mulan PSL v2.
+//You may obtain a copy of Mulan PSL v2 at:
+//http://license.coscl.org.cn/MulanPSL2
+//THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
+//See the Mulan PSL v2 for more details.
+
 package main
 
 import (
@@ -25,12 +33,12 @@ var (
 )
 
 func init() {
-	flag.StringVar(&cmdFormat, "format", "", "Ouput format. Supported values: png|jpg|jpeg|bmp|tiff|gif. Omit to keep original format.")
-	flag.BoolVar(&cmdHelp, "help", false, "Show help message.")
-	flag.IntVar(&cmdWidth, "width", -1, "Destination width. Omit to keep original width")
-	flag.IntVar(&cmdHeight, "height", -1, "Destination height. Omit to keep original height")
-	flag.StringVar(&cmdSource, "source", "", "Source file or directory.")
-	flag.StringVar(&cmdDest, "dest", "", "Destination file or directory.")
+	flag.StringVar(&cmdFormat, "format", "", "Output format \nSupported values: png|jpg|jpeg|bmp|tiff|gif \nOmit to keep original format ")
+	flag.BoolVar(&cmdHelp, "help", false, "Show help message ")
+	flag.IntVar(&cmdWidth, "width", -1, "Destination width \nOmit to keep original width")
+	flag.IntVar(&cmdHeight, "height", -1, "Destination height \nOmit to keep original height")
+	flag.StringVar(&cmdSource, "source", "", "Source file or directory")
+	flag.StringVar(&cmdDest, "dest", "", "Destination file or directory")
 	flag.IntVar(&cmdResizeMode, "mode", 0, `0 - (Default) Nearest-neighbor interpolation
 1 - Bilinear interpolation
 2 - Bicubic interpolation
@@ -39,7 +47,7 @@ func init() {
 5 - Lanczos resampling with a=3`)
 
 	flag.Usage = func() {
-		fmt.Printf("Usage of ImgResizer %s \nFor more information, please visit: \nhttps://github.com/barats/ImgResizer \nhttps://gitee.com/barat/imgresizer \n\nImgResizer -source {source} -dest {dest} -mode {mode}\n", Version)
+		fmt.Printf("Usage of ImgResizer %s\nFor more information, please visit: \nhttps://github.com/barats/ImgResizer or https://gitee.com/barat/imgresizer \n\nImgResizer -source {source} -dest {dest} -mode {mode}\n", Version)
 		flag.PrintDefaults()
 	}
 }
@@ -66,7 +74,7 @@ func main() {
 
 	if sourceInfo.IsDir() {
 		//Assume that source & destination are directories which include image files in it
-		//Assume that destination direcotry is exist(create if it's not)
+		//Assume that destination directory is existed(create if it's not)
 		//Assume that destination directory is empty(override if it's not)
 		files, err := ioutil.ReadDir(cmdSource)
 		if err != nil {
