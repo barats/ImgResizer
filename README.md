@@ -11,13 +11,16 @@
 ```
 ImgResizer -source {source} -dest {dest} -mode {mode}
   -dest string
-        Destination file or directory.
+        Destination file or directory
   -format string
-        Ouput format. Supported values: png|jpg|jpeg|bmp|tiff|gif. Omit to keep original format.
+        Output format 
+        Supported values: png|jpg|jpeg|bmp|tiff|gif 
+        Omit to keep original format 
   -height int
-        Destination height. Omit to keep original height (default -1)
+        Destination height 
+        Omit to keep original height (default -1)
   -help
-        Show help message.
+        Show help message 
   -mode int
         0 - (Default) Nearest-neighbor interpolation
         1 - Bilinear interpolation
@@ -26,9 +29,10 @@ ImgResizer -source {source} -dest {dest} -mode {mode}
         4 - Lanczos resampling with a=2
         5 - Lanczos resampling with a=3
   -source string
-        Source file or directory.
+        Source file or directory
   -width int
-        Destination width. Omit to keep original width (default -1)
+        Destination width 
+        Omit to keep original width (default -1)
 ```
 
 ## 注意事项
