@@ -40,7 +40,7 @@ ImgResizer -source {source} -dest {dest} -mode {mode}
   -source string
         Source file or directory
   -width int
-        Destination width tai
+        Destination width
         Omit to keep original width (default -1)
 ```
 
