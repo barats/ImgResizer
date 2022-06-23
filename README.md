@@ -6,6 +6,15 @@
 1. 支持自定义宽度、高度
 1. 五种等比缩放模式
 
+<p style="text-align: center">
+<a target="_blank" href="https://github.com/barats/ImgResizer/stargazers"><img src="https://img.shields.io/github/stars/barats/ImgResizer"/></a>
+<a target="_blank" href="https://github.com/barats/ImgResizer/network/members"><img src="https://img.shields.io/github/forks/barats/ImgResizer"/></a>
+<a target="_blank" href="https://github.com/barats/ImgResizer/issues"><img src="https://img.shields.io/github/issues/barats/ImgResizer"/></a>  
+<a target="_blank" href='https://gitee.com/barat/imgresizer/stargazers'><img src='https://gitee.com/barat/imgresizer/badge/star.svg?theme=dark' /></a>
+<a target="_blank" href='https://gitee.com/barat/imgresizer/members'><img src='https://gitee.com/barat/imgresizer/badge/fork.svg?theme=dark' /></a>
+<a target="_blank" href='https://www.oschina.net/comment/project/64382'><img src='https://www.oschina.net/comment/badge/project/64382'/></a> 
+</p>
+
 ## 使用方法
 
 ```
@@ -31,7 +40,7 @@ ImgResizer -source {source} -dest {dest} -mode {mode}
   -source string
         Source file or directory
   -width int
-        Destination width 
+        Destination width tai
         Omit to keep original width (default -1)
 ```
 
@@ -61,7 +70,8 @@ ImgResizer -source ~/pics/hello.gif -dest ~/newpics/wow.gif -width 900
 ImgResizer -source ~/pics -dest ~/new_pics -format jpg
 ```
 
-## 源代码
+## ImgResizer 
 1. Gitee [https://gitee.com/barat/imgresizer](https://gitee.com/barat/imgresizer)
 1. Github [https://github.com/barats/ImgResizer](https://github.com/barats/ImgResizer)
 1. Gitlink [https://www.gitlink.org.cn/baladiwei/imgresizer](https://www.gitlink.org.cn/baladiwei/imgresizer)
+1. 收录信息  [https://www.oschina.net/p/ImgResizer](https://www.oschina.net/p/ImgResizer)
